@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>ITパスポート アイコン生成</title></head>
+<body style="font-family:sans-serif;padding:20px;background:#0a1628;color:#e2e8f0;">
+<h2 style="color:#10b981;">ITパスポート アイコン生成</h2>
+<canvas id="c192" width="192" height="192" style="border:1px solid #334155;margin:8px;"></canvas>
+<canvas id="c512" width="512" height="512" style="border:1px solid #334155;margin:8px;width:128px;height:128px;"></canvas>
+<br>
+<button onclick="download('c192','icon-192.png')" style="margin:6px;padding:8px 16px;background:#10b981;color:#0a1628;border:none;cursor:pointer;font-size:0.9rem;font-weight:700;">icon-192.png をダウンロード</button>
+<button onclick="download('c512','icon-512.png')" style="margin:6px;padding:8px 16px;background:#10b981;color:#0a1628;border:none;cursor:pointer;font-size:0.9rem;font-weight:700;">icon-512.png をダウンロード</button>
+<script>
+function draw(id) {
+  const c = document.getElementById(id); const s = c.width;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,s,s);
+  grad.addColorStop(0,'#0a1628'); grad.addColorStop(1,'#0d2b1a');
+  ctx.fillStyle = grad; ctx.fillRect(0,0,s,s);
+  const r = s*0.18; ctx.save(); ctx.beginPath();
+  ctx.moveTo(r,0);ctx.lineTo(s-r,0);ctx.quadraticCurveTo(s,0,s,r);
+  ctx.lineTo(s,s-r);ctx.quadraticCurveTo(s,s,s-r,s);
+  ctx.lineTo(r,s);ctx.quadraticCurveTo(0,s,0,s-r);
+  ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);
+  ctx.closePath(); ctx.clip(); ctx.fillStyle=grad; ctx.fillRect(0,0,s,s);
+  ctx.strokeStyle='rgba(16,185,129,0.15)'; ctx.lineWidth=s*0.012;
+  for(let i=1;i<4;i++){
+    ctx.beginPath();ctx.moveTo(s*0.05,s*i*0.25);ctx.lineTo(s*0.95,s*i*0.25);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(s*i*0.25,s*0.05);ctx.lineTo(s*i*0.25,s*0.95);ctx.stroke();
+  }
+  ctx.fillStyle='#10b981'; ctx.font=`bold ${s*0.42}px Arial,sans-serif`;
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.shadowColor='rgba(16,185,129,0.6)'; ctx.shadowBlur=s*0.08;
+  ctx.fillText('IT', s*0.5, s*0.4);
+  ctx.shadowBlur=0; ctx.fillStyle='rgba(255,255,255,0.9)';
+  ctx.font=`bold ${s*0.1}px Arial,sans-serif`;
+  ctx.fillText('パスポート', s*0.5, s*0.76);
+  ctx.fillStyle='rgba(16,185,129,0.5)';
+  [[0.12,0.12],[0.88,0.12],[0.12,0.88],[0.88,0.88]].forEach(([x,y])=>{
+    ctx.beginPath();ctx.arc(x*s,y*s,s*0.03,0,Math.PI*2);ctx.fill();
+  });
+  ctx.restore();
+}
+function download(id,name){ const c=document.getElementById(id); const a=document.createElement('a'); a.download=name; a.href=c.toDataURL('image/png'); a.click(); }
+draw('c192'); draw('c512');
+</script>
+</body>
+</html>
