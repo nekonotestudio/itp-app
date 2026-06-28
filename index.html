@@ -339,6 +339,14 @@
 <script src="questions2.js"></script>
 <script>
 const ALL_QUESTIONS_BASE = [...QUESTIONS, ...QUESTIONS2];
+ALL_QUESTIONS_BASE.forEach(q => {
+  const correctText = q.options[q.answer];
+  for (let i = q.options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
+  }
+  q.answer = q.options.indexOf(correctText);
+});
 let ALL_QUESTIONS = ALL_QUESTIONS_BASE;
 let activeCat = 'all';
 
